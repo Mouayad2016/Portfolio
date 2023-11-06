@@ -9,6 +9,8 @@ type Props = {
 		title: string;
 		description: string;
 		repository?: string;
+		videoUrl?: string;
+
 	};
 
 	views: number;
@@ -28,6 +30,12 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 		links.push({
 			label: "Website",
 			href: project.url,
+		});
+	}
+	if (project.videoUrl) {
+		links.push({
+			label: "Video",
+			href: project.videoUrl,
 		});
 	}
 	useEffect(() => {

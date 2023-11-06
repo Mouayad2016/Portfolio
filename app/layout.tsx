@@ -6,19 +6,19 @@ import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "mouayad.com",
+    template: "%s | mouayadmouayad.com",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description: "Explore the digital craftsmanship of Mouayad Mouayad. My portfolio showcases a curated selection of projects that demonstrate my expertise in full-stack development. Discover how I fuse technical skill with design finesse to create impactful solutions.",
   openGraph: {
-    title: "chronark.com",
+    title: "Discover the Digital Craftsmanship of Mouayad Mouayad",
     description:
-      "Co-founder of unkey.dev and founder of planetfall.io",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
+      "Embark on an interactive voyage through my portfolio where each project narrates a story of skill, precision, and passion for full stack development.",
+    url: "https://mouayadmouayad.com",
+    siteName: "MouayadMouayad.com - Full Stack Developer Portfolio",
     images: [
       {
-        url: "https://chronark.com/og.png",
+        url: "https:///mouayadmouayad.com/og.png",
         width: 1920,
         height: 1080,
       },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Chronark",
+    title: "Mouayad Mouayad - Crafting Code with Passion",
     card: "summary_large_image",
   },
   icons: {

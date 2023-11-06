@@ -13,21 +13,24 @@ export const revalidate = 60;
 export default async function ProjectsPage() {
   const views = (
     await redis.mget<number[]>(
-      ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":")),
+      ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":"))
     )
   ).reduce((acc, v, i) => {
     acc[allProjects[i].slug] = v ?? 0;
     return acc;
   }, {} as Record<string, number>);
 
-  const featured = allProjects.find((project) => project.slug === "unkey")!;
-  const top2 = allProjects.find((project) => project.slug === "planetfall")!;
-  const top3 = allProjects.find((project) => project.slug === "highstorm")!;
+// console.log(views)
+
+  const featured = allProjects.find((project) => project.slug === "partnera")!;
+  const top2 = allProjects.find((project) => project.slug === "mai")!;
+  const top3 = allProjects.find((project) => project.slug === "enormt")!;
   const sorted = allProjects
     .filter((p) => p.published)
     .filter(
       (project) =>
-        project.slug !== featured.slug &&
+        project.slug !== featured.slug        
+        &&
         project.slug !== top2.slug &&
         project.slug !== top3.slug,
     )
