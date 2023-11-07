@@ -1,0 +1,101 @@
+---
+title: Game-shop
+description: This project is an e-commerce website selling video games.
+date: "2023-03-24"
+published: true
+repository: Mouayad2016/Game-shop-v
+---
+
+
+[![](https://camo.githubusercontent.com/027481a09d86802af1490cecfc832ec91ef27c6754eb175515b7ff9d637bdc9c/68747470733a2f2f63646e332e662d63646e2e636f6d2f636f6e74657374656e74726965732f32343239342f3839383738392f353162383864366265646665365f7468756d623930302e6a7067)](https://github.com/Mouayad2016/Game-shop-v)
+
+## E-commerce website
+
+This project is an e-commerce website selling video games.
+
+### Frameworks
+
+We've decided to use Python and Django for our backend structure.
+
+For the frontend, the framework in use is React with Bootstrap.
+
+And for the API, the application in use is Postman.
+
+### API Endpoints
+
+| HTTP Verbs | Endpoints                   | Action                                |
+|------------|-----------------------------|---------------------------------------|
+| POST       | /products/post              | To create a new product               |
+| POST       | /category/post              | To create a new category              |
+| POST       | /shopping_cart/post         | To create a new shopping cart         |
+| POST       | /discount/post              | To create a new discount              |
+| GET        | /products                   | To retrieve all products              |
+| GET        | /category                   | To retrieve all categories            |
+| GET        | /shopping_cart              | To retrieve all shopping carts        |
+| GET        | /discount                   | To retrieve all discounts             |
+| PUT        | /products/int:id/update     | To edit the details of product        |
+| PUT        | /category/int:id/update     | To edit the details of a category     |
+| PUT        | /shopping_cart/int:id/update| To edit the details of a shopping cart|
+| PUT        | /discount/int:id/update     | To edit the details of a discount     |
+| DELETE     | /products/int:id/delete     | To delete a product                   |
+| DELETE     | /category/int:id/delete     | To delete a category                  |
+| DELETE     | /shopping_cart/int:id/delete| To a shopping cart                    |
+| DELETE     | /discount/int:id/delete     | To delete a discount                  |
+
+### Installation
+
+Get the project from git
+```shell
+git clone https://github.com/Mouayad2016/Game-shop-v.git
+cd backend
+pip install -r requirements.txt
+```
+
+### Deployment
+To deploy this project, write this in the backend in one terminal
+```shell
+cd frontend
+npm install
+
+cd backend
+python manage.py runserver
+```
+And this in the frontend in another terminal
+```shell
+cd frontend
+npm install
+npm start
+```
+Usage/Examples
+We're using serializers instead of regular django form.
+
+### serializers.py
+```py
+python
+Copy code
+from .models import Product
+from rest_framework import serializers
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+```
+### views.py
+
+```py
+from .serializers import ProductSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+@api_view(['GET'])
+def getProduct(request):
+    try:
+        product = Product.objects.all()
+        serializer = ProductSerializer(product, many=True)
+        return Response(serializer.data)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+```
