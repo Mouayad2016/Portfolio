@@ -7,12 +7,12 @@ import React from "react";
 
 export const metadata: Metadata = {
   title: {
-    default: "mouayad.com",
+    default: "Mouayad Mouayad | Stockholm | mouayadmouayad.com",
     template: "%s | mouayadmouayad.com",
   },
   description: "Explore the digital craftsmanship of Mouayad Mouayad. My portfolio showcases a curated selection of projects that demonstrate my expertise in full-stack development. Discover how I fuse technical skill with design finesse to create impactful solutions.",
   openGraph: {
-    title: "Discover the Digital Craftsmanship of Mouayad Mouayad",
+    title: "Discover the Digital Craftsmanship of Mouayad Mouayad | Stockholm",
     description:
       "Embark on an interactive voyage through my portfolio where each project narrates a story of skill, precision, and passion for full stack development.",
     url: "https://mouayadmouayad.com",
