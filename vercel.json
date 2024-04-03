@@ -4,11 +4,6 @@
 			"source": "/(.*)",
 			"destination": "https://www.mouayadmouayad.com/$1",
 			"permanent": true
-		},
-		{
-			"source": "/(.*)",
-			"destination": "https://www.mouayadmouayad.com/$1",
-			"permanent": true
 		}
 	]
 }
