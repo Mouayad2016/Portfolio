@@ -1,18 +1,19 @@
 {
-    "redirects": [{
-            "source": "http://mouayadmouayad.com/(.*)",
-            "destination": "https://www.mouayadmouayad.com/$1",
-            "permanent": true
-        },
-        {
-            "source": "http://www.mouayadmouayad.com/(.*)",
-            "destination": "https://www.mouayadmouayad.com/$1",
-            "permanent": true
-        },
-        {
-            "source": "https://mouayadmouayad.com/(.*)",
-            "destination": "https://www.mouayadmouayad.com/$1",
-            "permanent": true
-        }
-    ]
+	"redirects": [
+		{
+			"source": "http://mouayadmouayad.com/(.*)",
+			"destination": "https://www.mouayadmouayad.com/$1",
+			"permanent": true
+		},
+		{
+			"source": "http://www.mouayadmouayad.com/(.*)",
+			"destination": "https://www.mouayadmouayad.com/$1",
+			"permanent": true
+		},
+		{
+			"source": "https://mouayadmouayad.com/(.*)",
+			"destination": "https://www.mouayadmouayad.com/$1",
+			"permanent": true
+		}
+	]
 }
