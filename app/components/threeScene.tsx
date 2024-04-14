@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { PerspectiveCamera as ThreePerspectiveCamera } from "three";
+
 import { OrbitControls, PerspectiveCamera, Stats } from "@react-three/drei";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -13,9 +15,9 @@ import {
 
 const Scene = () => {
 	const { scene, gl, camera } = useThree();
-	const ambientLight = useRef();
-	const spotLight = useRef();
-	const mixerRef = useRef(); // Ref to hold the mixer
+	const ambientLightRef = useRef<THREE.AmbientLight>(null);
+	const spotLight = useRef<THREE.SpotLight>(null);
+	const mixerRef = useRef<THREE.AnimationMixer | null>(null);
 
 	const textureFlare0 = useLoader(
 		THREE.TextureLoader,
@@ -50,11 +52,16 @@ const Scene = () => {
 
 			const animations = gltf.animations;
 			if (animations && animations.length) {
-				mixerRef.current = new THREE.AnimationMixer(gltf.scene);
-				animations.forEach((clip) => {
-					const action = mixerRef.current.clipAction(clip);
-					action.play();
-				});
+				const mixer = new THREE.AnimationMixer(gltf.scene);
+				mixerRef.current = mixer;
+				// mixerRef.current = new THREE.AnimationMixer(gltf.scene);
+				if (mixer) {
+					// Check the local variable instead of the ref directly
+					animations.forEach((clip) => {
+						const action = mixer.clipAction(clip); // Use local variable
+						action.play();
+					});
+				}
 			}
 			gltf.scene.position.set(0, 0, 0);
 
@@ -92,8 +99,10 @@ const Scene = () => {
 	}, [scene]);
 
 	useFrame(() => {
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
+		if (camera instanceof ThreePerspectiveCamera) {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+		}
 		gl.setSize(window.innerWidth, window.innerHeight);
 	});
 
@@ -105,7 +114,7 @@ const Scene = () => {
 
 	return (
 		<>
-			<ambientLight ref={ambientLight} intensity={1} />
+			<ambientLight ref={ambientLightRef} intensity={1} />
 			<spotLight
 				ref={spotLight}
 				position={[10, 10, 10]}
