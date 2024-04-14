@@ -28,24 +28,26 @@ const Scene = () => {
 		scene.environment = rgbeTexture;
 		scene.background = rgbeTexture;
 
-		const lensflare = new Lensflare();
-		lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
-		spotLight.current.add(lensflare);
+		// const lensflare = new Lensflare();
+		// lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
+		// spotLight.current.add(lensflare);
 	}, [textureFlare0, rgbeTexture, scene]);
 
 	useEffect(() => {
 		const loader = new GLTFLoader();
 		loader.load("/mouayad.glb", (gltf) => {
 			scene.add(gltf.scene);
-			const mouayad = gltf.scene.getObjectByName("Mouayad");
+			const mouayad = gltf.scene.getObjectByName("Mouayad") as THREE.Mesh;
+			mouayad.castShadow = true;
 			if (mouayad) {
 				mouayad.castShadow = true;
 				mouayad.traverse((child) => {
-					if (child.isMesh) {
+					if (child instanceof THREE.Mesh) {
 						child.castShadow = true;
 					}
 				});
 			}
+
 			const animations = gltf.animations;
 			if (animations && animations.length) {
 				mixerRef.current = new THREE.AnimationMixer(gltf.scene);
@@ -54,6 +56,38 @@ const Scene = () => {
 					action.play();
 				});
 			}
+			gltf.scene.position.set(0, 0, 0);
+
+			const plane = gltf.scene.getObjectByName("Plane") as THREE.Mesh;
+			plane.receiveShadow = true;
+			const spotLight = gltf.scene.getObjectByName("Spot") as THREE.SpotLight;
+			spotLight.intensity /= 2;
+			spotLight.castShadow = true;
+
+			const name = gltf.scene.getObjectByName("name") as THREE.Mesh;
+			(
+				(name.material as THREE.MeshStandardMaterial).map as THREE.Texture
+			).colorSpace = THREE.LinearSRGBColorSpace;
+
+			const phone = gltf.scene.getObjectByName("phone") as THREE.Mesh;
+			(
+				(phone.material as THREE.MeshStandardMaterial).map as THREE.Texture
+			).colorSpace = THREE.LinearSRGBColorSpace;
+
+			const mail = gltf.scene.getObjectByName("e-mail") as THREE.Mesh;
+			(
+				(mail.material as THREE.MeshStandardMaterial).map as THREE.Texture
+			).colorSpace = THREE.LinearSRGBColorSpace;
+
+			const qoute = gltf.scene.getObjectByName("qoute") as THREE.Mesh;
+			(
+				(qoute.material as THREE.MeshStandardMaterial).map as THREE.Texture
+			).colorSpace = THREE.LinearSRGBColorSpace;
+
+			const lensflare = new Lensflare();
+			lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
+			spotLight.add(lensflare);
+			scene.add(gltf.scene);
 		});
 	}, [scene]);
 
