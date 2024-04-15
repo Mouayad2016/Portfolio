@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { PerspectiveCamera as ThreePerspectiveCamera } from "three";
@@ -12,8 +12,10 @@ import {
 	Lensflare,
 	LensflareElement,
 } from "three/examples/jsm/objects/Lensflare";
-
-const Scene = () => {
+interface SceneProps {
+	onLoaded: () => void;
+}
+const Scene: FC<SceneProps> = ({ onLoaded }) => {
 	const { scene, gl, camera } = useThree();
 	const ambientLightRef = useRef<THREE.AmbientLight>(null);
 	const spotLight = useRef<THREE.SpotLight>(null);
@@ -80,6 +82,7 @@ const Scene = () => {
 			lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
 			spotLight.add(lensflare);
 			scene.add(gltf.scene);
+			onLoaded();
 		});
 	}, [scene]);
 
@@ -113,8 +116,8 @@ const Scene = () => {
 				fov={75}
 				aspect={window.innerWidth / window.innerHeight}
 				near={0.1}
-				far={100}
-				position={[1, 2, 4]}
+				far={50}
+				position={[-2, 1, 8]}
 			/>
 			<OrbitControls enableDamping />
 			<Stats />
@@ -123,10 +126,22 @@ const Scene = () => {
 };
 
 const ThreeScene = () => {
+	const [isLoading, setIsLoading] = useState(true);
+	const handleLoaded = () => {
+		setIsLoading(false);
+	};
 	return (
-		<Canvas shadows>
-			<Scene />
-		</Canvas>
+		<div className='relative w-full h-full'>
+			{isLoading && (
+				<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl text-white z-10'>
+					Loading...
+				</div>
+			)}
+
+			<Canvas shadows>
+				<Scene onLoaded={handleLoaded} />{" "}
+			</Canvas>
+		</div>
 	);
 };
 
