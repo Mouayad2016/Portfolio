@@ -29,21 +29,26 @@ const Scene = () => {
 		rgbeTexture.mapping = THREE.EquirectangularReflectionMapping;
 		scene.environment = rgbeTexture;
 		scene.background = rgbeTexture;
-
-		// const lensflare = new Lensflare();
-		// lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
-		// spotLight.current.add(lensflare);
 	}, [textureFlare0, rgbeTexture, scene]);
 
 	useEffect(() => {
 		const loader = new GLTFLoader();
-		loader.load("/mouayad.glb", (gltf) => {
+		loader.load("/mouayad4.glb", (gltf) => {
+			console.log(gltf);
 			scene.add(gltf.scene);
 			const mouayad = gltf.scene.getObjectByName("Mouayad") as THREE.Mesh;
-			mouayad.castShadow = true;
 			if (mouayad) {
 				mouayad.castShadow = true;
 				mouayad.traverse((child) => {
+					if (child instanceof THREE.Mesh) {
+						child.castShadow = true;
+					}
+				});
+			}
+			const car = gltf.scene.getObjectByName("SketchUp") as THREE.Mesh;
+			if (car) {
+				car.castShadow = true;
+				car.traverse((child) => {
 					if (child instanceof THREE.Mesh) {
 						child.castShadow = true;
 					}
@@ -70,26 +75,6 @@ const Scene = () => {
 			const spotLight = gltf.scene.getObjectByName("Spot") as THREE.SpotLight;
 			spotLight.intensity /= 2;
 			spotLight.castShadow = true;
-
-			const name = gltf.scene.getObjectByName("name") as THREE.Mesh;
-			(
-				(name.material as THREE.MeshStandardMaterial).map as THREE.Texture
-			).colorSpace = THREE.LinearSRGBColorSpace;
-
-			const phone = gltf.scene.getObjectByName("phone") as THREE.Mesh;
-			(
-				(phone.material as THREE.MeshStandardMaterial).map as THREE.Texture
-			).colorSpace = THREE.LinearSRGBColorSpace;
-
-			const mail = gltf.scene.getObjectByName("e-mail") as THREE.Mesh;
-			(
-				(mail.material as THREE.MeshStandardMaterial).map as THREE.Texture
-			).colorSpace = THREE.LinearSRGBColorSpace;
-
-			const qoute = gltf.scene.getObjectByName("qoute") as THREE.Mesh;
-			(
-				(qoute.material as THREE.MeshStandardMaterial).map as THREE.Texture
-			).colorSpace = THREE.LinearSRGBColorSpace;
 
 			const lensflare = new Lensflare();
 			lensflare.addElement(new LensflareElement(textureFlare0, 1000, 0));
